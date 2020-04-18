@@ -14,7 +14,7 @@ def adjust_learning_rate(optimizer, epoch):
     lr = lr * (0.5 ** (epoch // 30))
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
-def save_checkpoint(state, is_best, filename='checkpoint.pth.tar'):
+def save_checkpoint(state , filename='checkpoint.pth.tar'):
     """
     Save the training model
     """
@@ -123,7 +123,6 @@ for epoch in range(num_epochs):
     for batch_idx, data in enumerate(dataloader):
         img, _ = data
         img = img.view(img.size(0), -1)
-        img = Variable(img)
         if torch.cuda.is_available():
             img = img.cuda()
         optimizer.zero_grad()
@@ -142,7 +141,7 @@ for epoch in range(num_epochs):
     print('====> Epoch: {} Average loss: {:.4f}'.format(
         epoch, train_loss / len(dataloader.dataset)))
     if epoch % 30 == 0:
-        save = to_img(recon_batch.cpu().data)
+        save = denorm(recon_batch.cpu().data)
         save_image(save, './RESULT_img/image_{}.png'.format(epoch))
         # SAVE EACH 30 EPOCH
         save_checkpoint({
