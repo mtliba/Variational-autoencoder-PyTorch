@@ -68,7 +68,7 @@ class VAE(nn.Module):
     def encode(self, x):
         h1 = F.relu(self.fc1(x))
         h2 = F.relu(self.fc11(h1))
-        h3 = F.relu(self.fc11(h3))
+        h3 = F.relu(self.fc12(h3))
         return self.fc21(h3), self.fc22(h3)
 
     def reparametrize(self, mu, logvar):
